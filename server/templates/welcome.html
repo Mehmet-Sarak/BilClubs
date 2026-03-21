@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>        
+        body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+        body { 
+            height: 100% !important; 
+            margin: 0 !important; 
+            padding: 0 !important; 
+            width: 100% !important; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f4f7f6; 
+        }
+        .email-wrapper { width: 100%; background-color: #f4f7f6; padding: 40px 0; }
+        .email-container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background-color: #ffffff; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+        }
+        .email-header { 
+            background-color: #4A90E2; 
+            padding: 35px 20px; 
+            text-align: center; 
+            color: #ffffff; 
+        }
+        .email-header h1 { 
+            margin: 0; 
+            font-size: 28px; 
+            font-weight: 600; 
+            letter-spacing: 1px; 
+        }
+        .email-body { padding: 40px 30px; line-height: 1.6; font-size: 16px; color: #444444; }
+        .email-body p { margin-top: 0; margin-bottom: 20px; }
+        .highlight { color: #4A90E2; font-weight: bold; }
+        .email-footer { 
+            background-color: #fcfcfc; 
+            padding: 20px; 
+            text-align: center; 
+            font-size: 13px; 
+            color: #999999; 
+            border-top: 1px solid #eeeeee; 
+        }
+    </style>
+</head>
+<body>
+    <div class="email-wrapper">
+        <div class="email-container">
+            
+            <div class="email-header">
+                <h1>Welcome to BilClubs!</h1>
+            </div>
+
+            <div class="email-body">
+                <p>Hi <strong>{{ name }}</strong>,</p>
+                <p>Welcome to the <span class="highlight">BilClubs</span> community! Your account has now been activated, which means you are ready to go and explore all the clubs and events available on campus.</p>
+                <p>To ensure you get the most personalized experience, please take a moment to go to your account settings and fill in your major and interests. This helps us pick the best club and event recommendations for you.</p>
+                <p>If you run into any issues or have questions, just reply to this email. Our support team is here to help.</p>
+                <p>Cheers,<br><strong>The NeoAim Team</strong></p>
+            </div>
+
+            <div class="email-footer">
+                &copy; 2026 BilClubs. All rights reserved.<br>
+                </div>
+
+        </div>
+    </div>
+</body>
+</html>

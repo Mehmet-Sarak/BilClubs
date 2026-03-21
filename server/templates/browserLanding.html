@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BilClubs</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #444444;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-center {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px 20px;
+        }
+
+        .page-container {
+            display: flex;
+            width: 900px;
+            max-width: 100%;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        /* ── Left: blue column ── */
+        .page-header {
+            width: 300px;
+            flex-shrink: 0;
+            background-color: #4A90E2;
+            padding: 48px 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .page-header::before,
+        .page-header::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+        }
+        .page-header::before { width: 220px; height: 220px; top: -80px; left: -80px; }
+        .page-header::after  { width: 180px; height: 180px; bottom: -70px; right: -70px; }
+
+        .page-header .brand {
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.8;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .app-icon {
+            width: 72px;
+            height: 72px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+        .app-icon svg {
+            width: 38px;
+            height: 38px;
+        }
+
+        .page-header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            position: relative;
+            margin-bottom: 6px;
+            animation: fadeDown 0.5s ease both;
+        }
+
+        .page-header .tagline {
+            font-size: 13px;
+            opacity: 0.75;
+            position: relative;
+            animation: fadeDown 0.5s 0.1s ease both;
+        }
+
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Right: content column ── */
+        .page-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-body {
+            flex: 1;
+            padding: 40px 36px 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 18px;
+            font-size: 15px;
+            line-height: 1.7;
+            color: #555;
+        }
+
+        .page-body p strong {
+            color: #333;
+        }
+
+        .page-body p.notice {
+            font-size: 13px;
+            color: #999;
+            border-left: 3px solid #d0dff5;
+            padding-left: 12px;
+        }
+
+        /* ── Support line ── */
+        .page-support {
+            background-color: #fcfcfc;
+            padding: 14px 36px;
+            font-size: 12px;
+            color: #999999;
+            border-top: 1px solid #eeeeee;
+        }
+        .page-support a {
+            color: #4A90E2;
+            text-decoration: none;
+        }
+        .page-support a:hover { text-decoration: underline; }
+
+        /* ── Copyright footer ── */
+        footer.page-copyright {
+            width: 100%;
+            padding: 14px 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #aaaaaa;
+            background-color: #edeef0;
+            border-top: 1px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-center">
+        <div class="page-container">
+
+            <!-- Left column -->
+            <div class="page-header">
+                <div class="brand">BilClubs</div>
+                <div class="app-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3" y="3" width="7" height="7" rx="1.5" fill="white" opacity="0.9"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1.5" fill="white" opacity="0.9"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1.5" fill="white" opacity="0.9"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1.5" fill="white" opacity="0.5"/>
+                    </svg>
+                </div>
+                <h1>Desktop App</h1>
+                <div class="tagline">Required to access BilClubs</div>
+            </div>
+
+            <!-- Right column -->
+            <div class="page-right">
+                <div class="page-body">
+
+                    <p><strong>BilClubs</strong> is the official club and events platform for Bilkent University students. It brings together all campus clubs in one place, letting students discover communities that match their interests, follow upcoming events, and manage their memberships.</p>
+
+                    <p>The platform is built around a <strong>desktop application</strong> — there is no web interface. What you are seeing now is the BilClubs API server, which the desktop app communicates with in the background. It is not designed to be accessed from a browser, and no content is available here.</p>
+
+                    <p class="notice">If you are a student looking to explore clubs and events, please download and install the BilClubs desktop app. If you are a developer and need access to API documentation, get in touch with our team.</p>
+
+                </div>
+
+                <div class="page-support">
+                    Questions? <a href="mailto:bilkent.clubs@gmail.com">Contact our support team</a> and we'll get you sorted.
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="page-copyright">
+        &copy; 2026 BilClubs. All rights reserved.
+    </footer>
+
+</body>
+</html>

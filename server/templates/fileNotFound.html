@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 – Page Not Found | BilClubs</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #444444;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ── Outer wrapper: fills viewport, stacks card + footer ── */
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ── Center area: grows to push footer down ── */
+        .page-center {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px 20px;
+        }
+
+        /* ── Container: two columns ── */
+        .page-container {
+            display: flex;
+            width: 900px;
+            max-width: 100%;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        /* ── Left: blue header column ── */
+        .page-header {
+            width: 300px;
+            flex-shrink: 0;
+            background-color: #4A90E2;
+            padding: 48px 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .page-header::before,
+        .page-header::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+        }
+        .page-header::before {
+            width: 220px; height: 220px;
+            top: -80px; left: -80px;
+        }
+        .page-header::after {
+            width: 180px; height: 180px;
+            bottom: -70px; right: -70px;
+        }
+
+        .page-header .brand {
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.8;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .error-code {
+            font-size: 100px;
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -4px;
+            margin-bottom: 10px;
+            position: relative;
+            animation: fadeDown 0.5s ease both;
+        }
+
+        .page-header h1 {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            position: relative;
+            animation: fadeDown 0.5s 0.1s ease both;
+        }
+
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Right: content column ── */
+        .page-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-body {
+            flex: 1;
+            padding: 40px 36px 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 24px;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .intro {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .intro svg {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            opacity: 0.25;
+            margin-top: 2px;
+        }
+
+        .intro p {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.65;
+        }
+
+        /* Possible-reasons list */
+        .reasons {
+            background-color: #f4f7f6;
+            border-radius: 6px;
+            padding: 18px 22px;
+        }
+        .reasons h2 {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #999999;
+            margin-bottom: 10px;
+        }
+        .reasons ul {
+            list-style: none;
+            padding: 0;
+        }
+        .reasons ul li {
+            padding: 7px 0 7px 20px;
+            position: relative;
+            font-size: 14px;
+            color: #555555;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .reasons ul li:last-child { border-bottom: none; }
+        .reasons ul li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #4A90E2;
+            font-size: 12px;
+        }
+
+        /* ── Support line: inside the card ── */
+        .page-support {
+            background-color: #fcfcfc;
+            padding: 14px 36px;
+            font-size: 12px;
+            color: #999999;
+            border-top: 1px solid #eeeeee;
+        }
+        .page-support a {
+            color: #4A90E2;
+            text-decoration: none;
+        }
+        .page-support a:hover { text-decoration: underline; }
+
+        /* ── Copyright footer: pinned to bottom of viewport ── */
+        .page-copyright {
+            width: 100%;
+            padding: 14px 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #aaaaaa;
+            background-color: #edeef0;
+            border-top: 1px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-wrapper">
+
+        <!-- Centered card area -->
+        <div class="page-center">
+            <div class="page-container">
+
+                <!-- Left column -->
+                <div class="page-header">
+                    <div class="brand">BilClubs</div>
+                    <div class="error-code">404</div>
+                    <h1>File Not Found</h1>
+                </div>
+
+                <!-- Right column -->
+                <div class="page-right">
+                    <div class="page-body">
+                        <div class="intro">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="#4A90E2" stroke-width="1.5"/>
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" stroke="#4A90E2" stroke-width="1.5" stroke-linecap="round"/>
+                                <circle cx="12" cy="17" r="0.8" fill="#4A90E2"/>
+                            </svg>
+                            <p>We couldn't find the file you were looking for. It may have been moved, renamed or it simply doesn't exist.</p>
+                        </div>
+
+                        <div class="reasons">
+                            <h2>Possible reasons</h2>
+                            <ul>
+                                <li>The URL was typed incorrectly or has a typo</li>
+                                <li>The resource has been removed or archived</li>
+                                <li>The endpoint you're calling is outdated</li>
+                                <li>You may not have permission to access this resource</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Support line inside card -->
+                    <div class="page-support">
+                        Still stuck? <a href="mailto:bilkent.clubs@gmail.com">Contact our support team</a> and we'll get you sorted.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Copyright footer: absolute bottom of page -->
+        <footer class="page-copyright">
+            &copy; 2026 BilClubs. All rights reserved.
+        </footer>
+
+    </div>
+
+</body>
+</html>
