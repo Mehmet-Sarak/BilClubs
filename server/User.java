@@ -26,7 +26,6 @@ public class User {
 
     private ArrayList<String> interests;
     private ArrayList<User> followedUsers;
-    private ArrayList<Club> registeredClubs;
     private HashMap<Integer, Integer> clubPrivileges;
     private int privileges = Privileges.NORMAL_USER;
 
@@ -84,18 +83,26 @@ public class User {
     }
 
     public void joinClub(Club club) {
-        registeredClubs.add(club);
+        if (isRegisteredInClub(club)) return;
         setClubPrivilege(club, Privileges.NORMAL_USER);
+    }
+
+    public boolean isRegisteredInClub(Club club) {
+        Integer clubId = club.getId();
+        return clubPrivileges.containsKey(clubId);
     }
 
     public void setClubPrivilege(Club club, int privilege) {
         // note that the privilege flag here is a composite flag created by using bitwise OR
         // unless the user is getting banned, then the flag is just 0
+        if (!isRegisteredInClub(club)) return;
+        // we need to make sure that the user is already a member of the club
+        // otherwise, club administrators can add unwilling users to their clubs
         clubPrivileges.put(club.getId(), privilege);
     }
 
     public void leaveClub(Club club) {
-        registeredClubs.remove(club);
+        if (!isRegisteredInClub(club)) return;
         clubPrivileges.remove(club.getId());
     }
 
@@ -104,6 +111,7 @@ public class User {
     }
 
     public boolean hasClubPrivilege(Club club, int privilegeType) {
+        if (!isRegisteredInClub(club)) return false;
         // note that the privilegeType flag here is NOT a composite flag
         int currentPrivilege = clubPrivileges.get(club.getId());
         if (currentPrivilege <= Privileges.NORMAL_USER) return false;
@@ -127,7 +135,6 @@ public class User {
             embeddings[i] = 0;
         }
         followedUsers.clear();
-        registeredClubs.clear();
         token = null;
         privileges = Privileges.BANNED_USER;
     }
