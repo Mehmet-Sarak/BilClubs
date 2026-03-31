@@ -121,7 +121,7 @@ public class DBManager {
     }
 
     public boolean addClub(Club club){
-        if (club == null || club.getId() == null || !initialized) return false;
+        if (club == null || !initialized) return false;
         EntityManager clubManager = clubManagerFactory.createEntityManager();
         clubManager.getTransaction().begin();
         clubManager.persist(club);
@@ -149,7 +149,7 @@ public class DBManager {
         if(!initialized) return null;
         Map<String, String> keyMap = new HashMap<String, String>() {{
             put("id", "c.getId()");
-            put("name", "c.getFullName()");
+            put("name", "c.getClubName()");
         }};
         StringBuilder queryBuilder = new StringBuilder();
         queryBuilder.append("SELECT c FROM Club c ");

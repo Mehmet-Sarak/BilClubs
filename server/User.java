@@ -27,19 +27,27 @@ public class User implements Embeddable {
 
     private float[] embeddings;
 
-    private ArrayList<String> interests = new ArrayList<>();
-    private ArrayList<User> followedUsers;
-    private HashMap<Integer, Integer> clubPrivileges;
+    private ArrayList<String> interests = null;
+    private ArrayList<User> followedUsers = null;
+    private HashMap<Integer, Integer> clubPrivileges = null;
     private int privileges = Privileges.NORMAL_USER;
 
     // a no argument constructor is required by JPA
     public User() {
+        initializeCollections();
     }
 
     public User(String firstName, String lastName, String email) {
+        initializeCollections();
         this.firstName = firstName.trim();
         this.lastName = lastName.trim();
         this.email = email.trim();
+    }
+
+    private void initializeCollections() {
+        if (followedUsers == null) followedUsers = new ArrayList<>();
+        if (clubPrivileges == null) clubPrivileges = new HashMap<>();
+        if (interests == null) interests = new ArrayList<>();
     }
 
     // Getters and Setters
@@ -86,33 +94,36 @@ public class User implements Embeddable {
     }
 
     public void followUser(User user) {
+        initializeCollections();
         followedUsers.add(user);
     }
 
     public void unfollowUser(User user) {
+        initializeCollections();
         followedUsers.remove(user);
     }
 
     public void joinClub(Club club) {
+        initializeCollections();
         if (isRegisteredInClub(club)) return;
-        setClubPrivilege(club, Privileges.NORMAL_USER);
+        clubPrivileges.put(club.getId(), Privileges.NORMAL_USER);
     }
 
     public boolean isRegisteredInClub(Club club) {
+        initializeCollections();
         Integer clubId = club.getId();
         return clubPrivileges.containsKey(clubId);
     }
 
     public void setClubPrivilege(Club club, int privilege) {
+        initializeCollections();
         // note that the privilege flag here is a composite flag created by using bitwise OR
         // unless the user is getting banned, then the flag is just 0
-        if (!isRegisteredInClub(club)) return;
-        // we need to make sure that the user is already a member of the club
-        // otherwise, club administrators can add unwilling users to their clubs
         clubPrivileges.put(club.getId(), privilege);
     }
 
     public void leaveClub(Club club) {
+        initializeCollections();
         if (!isRegisteredInClub(club)) return;
         clubPrivileges.remove(club.getId());
     }
@@ -122,6 +133,7 @@ public class User implements Embeddable {
     }
 
     public boolean hasClubPrivilege(Club club, int privilegeType) {
+        initializeCollections();
         if (!isRegisteredInClub(club)) return false;
         // note that the privilegeType flag here is NOT a composite flag
         int currentPrivilege = clubPrivileges.get(club.getId());
@@ -135,18 +147,32 @@ public class User implements Embeddable {
     }
 
     public void addInterest(String interest) {
+        initializeCollections();
         interests.add(interest);
     }
 
     public void removeInterest(String interest) {
+        initializeCollections();
         interests.remove(interest);
     }
 
     public void setInterests(ArrayList<String> interests) {
+        initializeCollections();
         this.interests = interests;
     }
 
+    public ArrayList<String> getInterests() {
+        initializeCollections();
+        return new ArrayList<>(interests);
+    }
+
+    public ArrayList<Integer> getClubIds() {
+        initializeCollections();
+        return new ArrayList<>(clubPrivileges.keySet());
+    }
+
     public void banUser() {
+        initializeCollections();
         for (int i = 0; i < embeddings.length; i++) {
             embeddings[i] = 0;
         }
@@ -164,6 +190,8 @@ public class User implements Embeddable {
     }
 
     public boolean isBannedFromClub(Club club){
+        initializeCollections();
+        if (!clubPrivileges.containsKey(club.getId())) return false;
         return clubPrivileges.get(club.getId()) == Privileges.BANNED_USER;
     }
 
@@ -173,6 +201,10 @@ public class User implements Embeddable {
 
     public void generateToken() {
         token = SecureTokenGenerator.generate();
+    }
+
+    public void clearToken() {
+        token = null;
     }
 
     public boolean validateToken(String providedToken) {

@@ -13,33 +13,41 @@ public class Club {
     private Integer id;
     private String clubName;
     private String clubDescription;
-    private ArrayList<User> memberUsers;
-    private HashMap<Integer, Integer> memberPrivileges;
+    private ArrayList<User> memberUsers = null;
+    private HashMap<Integer, Integer> memberPrivileges = null;
     
 
     // a no argument constructor is required by JPA
     public Club() {
+        initializeCollections();
+    }
+
+    public void initializeCollections() {
+        if (memberUsers == null) memberUsers = new ArrayList<>();
+        if (memberPrivileges == null) memberPrivileges = new HashMap<>();
     }
 
     public Club(String argClubName, String argClubDesc){
+        initializeCollections();
         clubName = argClubName.trim();
         clubDescription = argClubDesc.trim();
-        memberUsers = new ArrayList<>();
-        memberPrivileges = new HashMap<>();
     }
 
     public void addMember(User user){
+        initializeCollections();
         if (memberUsers.contains(user)) return;
         memberUsers.add(user);
         setMemberPrivilege(user, Privileges.NORMAL_USER);
     }
 
     public void removeMember(User user){
+        initializeCollections();
         memberUsers.remove(user);
         memberPrivileges.remove(user.getId());
     }
 
     public void setMemberPrivilege(User user, Integer privilege){
+        initializeCollections();
         memberPrivileges.put(user.getId(), privilege);
     }
 
