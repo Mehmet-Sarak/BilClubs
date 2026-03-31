@@ -1,5 +1,10 @@
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -14,6 +19,8 @@ public class APIHandler {
     private static final Credentials credentials = new Credentials(System.getenv());
     public static DBManager manager = new DBManager();
     private static MailSession session = new MailSession(credentials);
+    private static final Base64.Decoder base64Decoder = Base64.getDecoder();
+    private static final List<String> allowedExtensions = List.of("png", "jpg", "jpeg", "pdf", "gif");
 
     public static void initializeDB() {
         manager.initialize("db");
@@ -81,7 +88,8 @@ public class APIHandler {
             case "updateProfile":
             case "setInterests":
             case "generateEmbeddings":
-            case "listClubs": {
+            case "listClubs":
+            case "upload": {
                 AuthResult authResult = authenticate(requestBody);
                 if (authResult.errorResponse != null) return authResult.errorResponse;
                 return handleAuthedUserAction(action, authResult.user, requestBody);
@@ -105,6 +113,8 @@ public class APIHandler {
                 return generateEmbeddings(user, requestBody);
             case "listClubs":
                 return listUserClubs(user, requestBody);
+            case "upload":
+                return uploadFiles(user, requestBody);
             default:
                 return buildResponse(400, null, "Unsupported user action.");
         }
@@ -326,6 +336,58 @@ public class APIHandler {
         data.put("clubId", newClub.getId());
         data.put("clubName", newClub.getClubName());
         return buildResponse(200, data, null);
+    }
+
+    private static JSONObject uploadFiles(User user, JSONObject requestBody) {
+        JSONObject data = new JSONObject();
+        JSONObject fileMap = new JSONObject();
+        JSONObject fileStatus = new JSONObject();
+
+        JSONArray files = requestBody.optJSONArray("files");
+        if (files == null) {
+            return buildResponse(400, null, "Missing or invalid 'files' array in request body.");
+        }
+
+        for (int index = 0; index < files.length(); index++) {
+            JSONObject file;
+            String fileName;
+            try {
+                file = files.getJSONObject(index);
+                fileName = file.getString("fileName");
+            } catch (Exception e) {
+                continue;
+            }
+            try {
+                String fileDataBase64 = file.getString("fileData");
+                byte[] fileData = base64Decoder.decode(fileDataBase64);
+                String fileExtension = file.getString("fileType").trim().toLowerCase();
+                if (!allowedExtensions.contains(fileExtension)) continue;
+                String newFileName = UUID.randomUUID().toString() + "." + fileExtension;
+                File newFile = new File("./static/" + newFileName);
+                try (FileOutputStream outputStream = new FileOutputStream(newFile)) {
+                    outputStream.write(fileData);
+                    outputStream.close();
+                    Media media = new Media();
+                    media.setUserId(user.getId());
+                    media.setRealFileName(fileName);
+                    media.setStoredFileName(newFileName);
+                    manager.addFile(media);
+                    fileMap.put(fileName, newFileName);
+                    fileStatus.put(fileName, true);
+                } catch (Exception e) {
+                    newFile.delete();
+                    fileStatus.put(fileName, false);
+                }
+            } catch (Exception e) {
+                fileStatus.put(fileName, false);
+                continue;
+            }
+        }
+
+        data.put("fileMap", fileMap);
+        data.put("fileStatus", fileStatus);
+
+        return buildResponse(200, data, null); 
     }
 
     public static JSONObject handle(HttpExchange httpExchange) {
